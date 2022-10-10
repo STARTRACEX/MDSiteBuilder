@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
 	"md/config"
 	"os"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/russross/blackfriday"
 )
 
 var G, C, P string
@@ -19,13 +20,18 @@ func main() {
 	router.Static(config.PostsPath, "."+config.PostsPath)
 	router.StaticFile("/favicon.ico", "./favicon.ico")
 	router.StaticFile("/README.md", "README.md")
+	// router.GET("/catalog",func(ctx *gin.Context) {
+	// 	ctx.HTML(200, "test.html", gin.H{"catalog": WalkFiles})
+	// })
 	router.GET("/", func(ctx *gin.Context) {
 		post := MarkdownPost("/README")
 		ctx.HTML(200, "posts.html", gin.H{"Markdown": post})
 	})
-	RenderDir(router, "")
-	RenderDir(router, "/en")
-	RenderDir(router, "/zh")
+	
+	for _, v := range config.MDGL {
+		RenderDir(router, v)
+	}
+
 	router.Run(":" + config.Port)
 }
 
@@ -42,12 +48,18 @@ type Post struct {
 func MarkdownPost(filepath string) Post {
 	fileread, _ := ioutil.ReadFile("." + filepath + ".md")
 	lines := strings.Split(string(fileread), "\n")
-	title := strings.Replace(string(lines[0]), "\r", "", 1)
-	summary := string(lines[1])
-	date := string(lines[2])
-	update := string(lines[3])
-	auther := string(lines[4])
-	body := strings.Join(lines[5:], "")
+	var (
+		summary, body, auther string
+		title, date, update   string = "Undefined", "Unknow", "Unknow"
+	)
+	if len(lines) >= 5 {
+		title = strings.Replace(string(lines[0]), "\r", "", 1)
+		summary = string(lines[1])
+		date = string(lines[2])
+		update = string(lines[3])
+		auther = string(lines[4])
+		body = strings.Join(lines[5:], "")
+	}
 	body = string(blackfriday.MarkdownCommon([]byte(body)))
 	return Post{
 		Title:      title,
@@ -61,52 +73,52 @@ func MarkdownPost(filepath string) Post {
 }
 
 func RenderDir(router *gin.Engine, dir string) {
-	_g := router.Group(dir+"/:g", func(ctx *gin.Context) { ctx.Set("g", ctx.Param("g")); ctx.Set("lang", dir) })
+	_g := router.Group(dir+"/:g", func(ctx *gin.Context) {
+		ctx.Set("g", ctx.Param("g"))
+		ctx.Set("lang", dir)
+
+	})
 	{
 		/* lv1 */
 		_g.GET("/", func(ctx *gin.Context) {
 			lang := Sget(ctx, "lang")
-			g, _ := ctx.Get("g")
-			// 如果/posts/:lang/def/:g不存在，目录为posts/:lang/:g
+			g := Sget(ctx, "g")
+			// Relocate File
 			path := config.PostsPath + lang + config.PostDefaultdPath
 			if !IsExist("." + path) {
 				path = config.PostsPath + lang
 			}
-			path = path + "/" + g.(string)
+			path = path + "/" + g
 			if !IsExist("." + path + ".md") {
 				path += "/index"
 			}
 			post := MarkdownPost(path)
-			ctx.HTML(200, "posts.html", gin.H{"Markdown": post})
+			ctx.HTML(200, "posts.html", gin.H{"Markdown": post, "Lang": ReturnLang(lang)})
 		})
 		_c := _g.Group("/:c", func(ctx *gin.Context) { ctx.Set("c", ctx.Param("c")) })
 		{
 			/* lv2 */
 			_c.GET("/", func(ctx *gin.Context) {
 				lang := Sget(ctx, "lang")
-				g, _ := ctx.Get("g")
-				c, _ := ctx.Get("c")
-				sg := g.(string)
-				sc := c.(string)
-				path := config.PostsPath + lang + "/" + sg + "/" + sc
+				g := Sget(ctx, "g")
+				c := Sget(ctx, "c")
+				path := config.PostsPath + lang + "/" + g + "/" + c
 				if !IsExist("." + path + ".md") {
-					path = config.PostsPath + lang + "/" + sg + "/" + sc + "/index"
+					path += "/index"
 				}
 				post := MarkdownPost(path)
-				ctx.HTML(200, "posts.html", gin.H{"Markdown": post})
+				ctx.HTML(200, "posts.html", gin.H{"Markdown": post, "Lang": ReturnLang(lang)})
 			})
 			{
 				/* lv3 */
 				_c.GET("/:p", func(ctx *gin.Context) {
 					lang := Sget(ctx, "lang")
-					c, _ := ctx.Get("c")
-					g, _ := ctx.Get("g")
+					g := Sget(ctx, "g")
+					c := Sget(ctx, "c")
 					p := ctx.Param("p")
-					sg := g.(string)
-					sc := c.(string)
-					path := config.PostsPath + lang + "/" + sg + "/" + sc + "/" + p
+					path := config.PostsPath + lang + "/" + g + "/" + c + "/" + p
 					post := MarkdownPost(path)
-					ctx.HTML(200, "posts.html", gin.H{"Markdown": post})
+					ctx.HTML(200, "posts.html", gin.H{"Markdown": post, "Lang": ReturnLang(lang)})
 				})
 				/* lv3 */
 			}
@@ -115,10 +127,7 @@ func RenderDir(router *gin.Engine, dir string) {
 		/* lv1 */
 	}
 }
-func IsExist(path string) bool {
-	_, err := os.Stat(path)
-	return err == nil || os.IsExist(err)
-}
+
 func Sget(ctx *gin.Context, name string) string {
 	v, e := ctx.Get(name)
 	if e || v != nil {
@@ -126,4 +135,14 @@ func Sget(ctx *gin.Context, name string) string {
 	} else {
 		return ""
 	}
+}
+func ReturnLang(s string) string {
+	if s == "" {
+		return "global"
+	}
+	return strings.Replace(s, "/", "", 1)
+}
+func IsExist(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil || os.IsExist(err)
 }

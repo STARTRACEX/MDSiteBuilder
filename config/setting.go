@@ -6,3 +6,4 @@ const StaticPath = "/public"
 const PostsPath = "/posts"
 const PostDefaultdPath = "/default"
 const DocStartUrl = "/"
+var MDGL =map[string]string{"default": "","english": "/en","chinese": "/zh"}
