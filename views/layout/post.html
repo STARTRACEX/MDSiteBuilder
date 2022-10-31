@@ -1,20 +1,20 @@
 {{define "MarkdownRenderer"}}
-<div class="markdown">
-   <h1 style="text-align: center;font-size: 32px;">{{.Markdown.Title}}</h1>
+<div class="markdown dark" id="markdown">
+   <title class="text-center">{{.Markdown.Title}}</title>
    <p>{{.Markdown.Summary}}</p>
    <hr>
-   <time style="display: block;text-align: right;">
+   <time>
       Created on {{.Markdown.Date}}
    </time>
-   <time style="display: block;text-align: right;" pubdate>
+   <time pubdate>
       Last Update {{.Markdown.Update}}
    </time>
    {{.Markdown.Body}}
-   <div>
+   <div style="position: relative;">
       <a href="{{.Markdown.OriginFile}}" target="_blank">View source</a>
       <br>
       <a href="{{.Markdown.OriginFile}}" download="{{.Markdown.Title}}.md">Download sorce</a>
-      <span style="float: right;">{{.Markdown.Auther}}</span>
+      <span style="position: absolute; right:0 ;top:0;">{{.Markdown.Author}}</span>
    </div>
    <hr>
 </div>

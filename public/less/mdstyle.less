@@ -1,13 +1,89 @@
-.markdown {
+@light-all-bgc: white;
+@light-all-color: #343e48;
+@light-title-color: #2B3F52;
+@light-pre-bgc: #f8f8f8;
+@light-line-color: #ccc;
+@dark-all-bgc: #272b34;
+@dark-all-color: #f0f4f5;
+@dark-title-color: #dcddde;
+@dark-pre-bgc: #1d232a;
+@dark-line-color: #424958;
 
+.dark .markdown {
+
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   h6 {
+      color: @dark-title-color !important;
+   }
+
+   h2 {
+      border-bottom-color: @dark-line-color !important;
+   }
+
+   color: @dark-all-color !important;
+   background-color: @dark-all-bgc !important;
+
+   code,
+   tt,
+   pre {
+      color: @dark-all-color !important;
+      background-color: @dark-pre-bgc !important;
+   }
+
+   table,
+   table * {
+      border-color: @dark-line-color !important;
+   }
+
+   blockquote {
+      border-left-color: #516272 !important;
+   }
+
+   blockquote,
+   table * {
+      background-color: @dark-pre-bgc !important;
+   }
+
+   code {
+      border-color: #34393e !important;
+   }
+
+   ul *,
+   pre {
+      border-color: #424958 !important;
+   }
+
+   p,
+   blockquote,
+   ul,
+   ol,
+   dl,
+   li,
+   table,
+   pre {
+      color: #f0f4f5 !important;
+   }
+
+   a {
+      color: #6bb2f8 !important;
+   }
+
+   hr {
+      background-color: #e4f0ff6c !important;
+   }
+}
+
+.markdown {
+   margin: 0 auto;
    font-size: 14px;
    line-height: 1.6;
-   padding-top: 10px;
-   padding-bottom: 10px;
-   background-color: white;
+   background-color: @light-all-bgc;
    padding: 30px;
-   color: #516272;
-
+   color: @light-all-color;
 
    >*:first-child {
       margin-top: 0 !important;
@@ -47,7 +123,6 @@
       font-weight: bold;
       -webkit-font-smoothing: antialiased;
       cursor: text;
-      position: relative;
    }
 
    h1:hover a.anchor,
@@ -92,32 +167,32 @@
 
    h1 {
       font-size: 28px;
-      color: #2B3F52;
+      color: @light-title-color;
    }
 
    h2 {
       font-size: 24px;
       border-bottom: 1px solid #DDE4E9;
-      color: #2B3F52;
+      color: @light-title-color;
    }
 
    h3 {
       font-size: 18px;
-      color: #2B3F52;
+      color: @light-title-color;
    }
 
    h4 {
       font-size: 16px;
-      color: #2B3F52;
+      color: @light-title-color;
    }
 
    h5 {
       font-size: 14px;
-      color: #2B3F52;
+      color: @light-title-color;
    }
 
    h6 {
-      color: #2B3F52;
+      color: @light-title-color;
       font-size: 14px;
    }
 
@@ -136,7 +211,7 @@
    hr {
       background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
       border: 0 none;
-      color: #cccccc;
+      color: @light-line-color;
       height: 4px;
       padding: 0;
 
@@ -241,10 +316,9 @@
 
    blockquote {
       border-left: 4px solid #ECF0F3;
-      /*padding: 0 15px;*/
       padding: 15px;
-      background-color: #F7F9FA;
-      color: #2B3F52;
+      background-color: @light-pre-bgc;
+      color: @light-title-color;
    }
 
    blockquote> :first-child {
@@ -261,25 +335,25 @@
    }
 
    table tr {
-      border-top: 1px solid #cccccc;
-      background-color: white;
+      border-top: 1px solid @light-line-color;
+      background-color: @light-all-bgc;
       margin: 0;
       padding: 0;
    }
 
    table tr:nth-child(2n) {
-      background-color: #f8f8f8;
+      background-color: @light-pre-bgc;
    }
 
    table tr th {
       font-weight: bold;
-      border: 1px solid #cccccc;
+      border: 1px solid @light-line-color;
       margin: 0;
       padding: 6px 13px;
    }
 
    table tr td {
-      border: 1px solid #cccccc;
+      border: 1px solid @light-line-color;
       margin: 0;
       padding: 6px 13px;
    }
@@ -392,21 +466,22 @@
       padding: 0 5px;
       white-space: nowrap;
       border: 1px solid #eaeaea;
-      background-color: #f8f8f8;
+      background-color: @light-pre-bgc;
       border-radius: 3px;
    }
 
    pre code {
-      margin: 0;
+      font-size: 115%;
+      margin: 0 22px 0 8px;
       padding: 0;
-      white-space: pre;
+      white-space: pre-wrap;
       border: none;
       background: transparent;
    }
 
    .highlight pre {
-      background-color: #f8f8f8;
-      border: 1px solid #cccccc;
+      background-color: @light-pre-bgc;
+      border: 1px solid @light-line-color;
       font-size: 13px;
       line-height: 19px;
       overflow: auto;
@@ -415,8 +490,8 @@
    }
 
    pre {
-      background-color: #f8f8f8;
-      border: 1px solid #cccccc;
+      background-color: @light-pre-bgc;
+      border: 1px solid @light-line-color;
       font-size: 13px;
       line-height: 19px;
       overflow: auto;
@@ -440,9 +515,7 @@
       white-space: pre-wrap;
       word-break: break-all;
       display: block;
-
    }
-
 
    @media print {
 

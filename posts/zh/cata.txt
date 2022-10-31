@@ -1,0 +1,2 @@
+1\在go中使用markdown\/zh/docs/
+2\提及的功能\/zh/docs/func/
