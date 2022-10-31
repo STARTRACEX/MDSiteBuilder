@@ -13,13 +13,17 @@ func main() {
 	r.Static(config.StaticPath, "."+config.StaticPath)
 	r.Static(config.PostsPath, "."+config.PostsPath)
 	r.StaticFile("/favicon.ico", "./favicon.ico")
-	// r.StaticFile("/README.md", "README.md")
-	// r.GET("/", func(ctx *gin.Context) {
-	// 	post := model.MarkdownPost("/README")
-	// 	ctx.HTML(200, "posts.html", gin.H{"Markdown": post})
-	// })
+	r.StaticFile("/README.md", "README.md")
+	// 
+	r.GET("/", func(c *gin.Context) {
+		post := model.ReadMarkdown("/README.md")
+		c.HTML(200, "posts.html", gin.H{"Markdown": post})
+	})
+	// 
 	r.GET("/docs", model.RenderPost)
 	r.GET("/docs/*url", model.RenderPost)
+	model.LangEN(r)
+	model.LangZH(r)
+	model.LangRU(r)
 	r.Run(":" + config.Port)
 }
-

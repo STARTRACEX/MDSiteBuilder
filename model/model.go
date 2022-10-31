@@ -25,14 +25,50 @@ type Cata struct {
 	Level string
 }
 
-func MarkdownPost(mdFilePath string) Post {
+func RenderMarkdown(mdFilePath string) Post {
 	source := "" + config.PostsPath + "/" + mdFilePath + ".md"
-	if !IsExist(source) {
-		source = "" + config.PostsPath + "/" + mdFilePath + "/index.md"
-	}
+
 	if !IsExist(source) {
 		source = "" + config.PostsPath + "/" + mdFilePath + "index.md"
 	}
+	if !IsExist(source) {
+		source = "" + config.PostsPath + "/" + mdFilePath + "/index.md"
+	}
+	return ReadMarkdown(source)
+}
+
+func RenderPost(c *gin.Context) {
+	var dir string = "zh"
+	l, e := c.Get("lang")
+	if e {
+		dir = l.(string)
+	}
+	cata := RenderCatalog("." + config.PostsPath + "/" + dir + "/cata.txt")
+	url := dir + "/" + c.Param("url")
+	post := RenderMarkdown(url)
+	c.HTML(200, "posts.html", gin.H{"Markdown": post, "Catalog": cata})
+}
+
+func RenderCatalog(DirectoryFilePath string) []Cata {
+	data, _ := ioutil.ReadFile(DirectoryFilePath)
+	lines := strings.Split(string(data), "\n")
+	var C []Cata
+	for _, line := range lines {
+		line = strings.ReplaceAll(line, "\r", "")
+		s := strings.Split(line, "\\")
+		if len(s) < 2 {
+			break
+		}
+		S := Cata{
+			Super: s[2],
+			Name:  s[1],
+			Level: s[0],
+		}
+		C = append(C, S)
+	}
+	return C
+}
+func ReadMarkdown(source string) Post {
 	var body, summary, author string
 	var title, date, update string = "Undefined", "Unknow", "Unknow"
 	fileread, err := ioutil.ReadFile("." + source)
@@ -49,7 +85,7 @@ func MarkdownPost(mdFilePath string) Post {
 	}
 	lines := strings.Split(string(fileread), "\n")
 	if len(lines) > 0 {
-		title = strings.Replace(strings.Replace(string(lines[0]), "\r", "", -1), "# ", "", -1)
+		title = strings.ReplaceAll(strings.ReplaceAll(string(lines[0]), "\r", ""), "# ", "")
 	}
 	if len(lines) > 1 {
 		summary = string(lines[1])
@@ -75,44 +111,6 @@ func MarkdownPost(mdFilePath string) Post {
 		Body:       template.HTML(body),
 		OriginFile: source}
 }
-
-func RenderPost(c *gin.Context) {
-	var dir string = "zh"
-	if GetCookie(c, "lang") != nil {
-		dir = GetCookie(c, "lang").(string)
-	}
-	cata := RenderCatalog("." + config.PostsPath + "/" + dir + "/cata.txt")
-	url := dir + "/" + c.Param("url")
-	post := MarkdownPost(url)
-	c.HTML(200, "posts.html", gin.H{"Markdown": post, "Catalog": cata})
-}
-func RenderPostAssigned(c *gin.Context, Assigned string) {
-	url := Assigned + c.Param("url")
-	cata := RenderCatalog("." + config.PostsPath + "/" + Assigned + "/cata.txt")
-	post := MarkdownPost(url)
-	c.HTML(200, "posts.html", gin.H{"Markdown": post, "Catalog": cata})
-
-}
-func RenderCatalog(DirectoryFilePath string) []Cata {
-	data, _ := ioutil.ReadFile(DirectoryFilePath)
-	lines := strings.Split(string(data), "\n")
-	var C []Cata
-	for _, line := range lines {
-		line = strings.ReplaceAll(line, "\r", "")
-		s := strings.Split(line, "\\")
-		if len(s) < 2 {
-			break
-		}
-		S := Cata{
-			Super: s[2],
-			Name:  s[1],
-			Level: s[0],
-		}
-		C = append(C, S)
-	}
-	return C
-}
-
 func IsExist(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil || os.IsExist(err)

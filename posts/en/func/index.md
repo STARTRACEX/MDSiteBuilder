@@ -1,13 +1,13 @@
 # Functions for go
 
 2022-09-30
-2022-10-30
+2022-11-01
 [STARTRACE](/)
 
 These functions can be found in./model/docs.go
 
 ```go
-func MarkdownPost(mdFilePath string) Post {}
+func RenderMarkdown(mdFilePath string) Post {}
 ```
 
 This function returns the parsed target document with the passed in string as the address
@@ -16,13 +16,7 @@ This function returns the parsed target document with the passed in string as th
 func RenderPost(c *gin.Context) {}
 ```
 
-This function will combine cookies ("lang") and request paths to resolve documents for addresses, and render them to HTML templates
-
-```go
-func RenderPostAssigned(c *gin.Context, Assigned) {}
-```
-
-This function will combine Assigned and request path to parse documents for addresses and render them to HTML templates
+This function will combine "lang" and request paths to resolve documents for addresses, and render them to HTML templates
 
 ```go
 func RenderCatalog(DirectoryFilePath string) []Cata {}

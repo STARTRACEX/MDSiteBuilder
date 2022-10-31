@@ -1,35 +1,37 @@
-README (TITLE)
-A Readme file(SUMMARY)
-1970-1-1 (CREAT DATE)
-2875-1-1 (LAST UPDATE)
-Me (AUTHER)
+# MDStaticSiteBuilder
 
-## Here is a Markdown Site Easy Quick Builder
+1970-01-01
+2022-11-01
+[STARTRACEX](https://github.com/STARTRACEX/MDStaticSiteBuilder)
 
-[Go to Watch](https://github.com/STARTRACEX/MDStaticSiteBuilder)
+## Getting Started
 
-## Rules
+[LIBRARY](https://github.com/STARTRACEX/MDStaticSiteBuilder)
 
-By *default*, "/" will match the readme of the root directory The first parameter carried by md and "/" will be the default language and may not exist. The subsequent path will match the file path.
+### URL as Path
 
-1. Create a folder named language in./posts as the matching directory for this language.
+*By default*:
 
-2. If the "default" folder exists, it will be the default language matching directory; otherwise, the default language matching directory will be the folder in./posts (excluding the folder name of the declared language).
+ The document contains the same prefix "/docs". THE ROUTE before it (such as en or zh) will be mapped to the local "./posts/THE ROUTE/documents"
 
-3. If the path points to a folder but does not point to a file, the index.md in this folder will be searched.
+"/" will return the readme file of the root directory "./README.md"
 
-4. If the path points to a file or folder with the same name, the file will be matched.
+"/docs" will return an index.md file that determines the language "/posts/.../index.md"
 
-## Identify document information
+"/docs/..." will return the file with the address of path and. md as the path. If the file does not exist, the path will be spliced with index.md. If it still does not exist, the path will be spliced with "/index.md"
 
-In the rendered document, it is divided into two parts.
+### Out-of-the-box
 
-Part I: the first line: the title of the document, the second line: the summary of the document, the third line: the creation time of the document, the fourth line: the last modification time of the document, the fifth line: the author of the document.
+Start the service by running the executable
 
-The following content is the second part: the main body of the document (please ensure that the first part of each document exists).
+Set the port number and domain name by carrying the following flags
 
-## **Watch Out**
+```terminal
+-p <port number>
+-d <domain name>
 
-- **All documents must have lines exceed 4**
+./main.exe -p 80 -d localhost
+```
 
-- **All document supports maximum directory level 2**
+Basic styles and scripts have been prepared:
+Including multilingual, theme, copybox directory, progress, source...

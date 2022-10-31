@@ -11,6 +11,24 @@
    --amone: #4183C4;
 }
 
+::-webkit-scrollbar-track {
+   border-radius: 10px;
+   background-color: #afafaf;
+}
+
+::-webkit-scrollbar {
+   background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+   border-radius: 10px;
+   background-color: rgb(85, 85, 85);
+}
+
+html {
+   margin-right: calc(100% - 100vw);
+}
+
 body {
    margin: 0;
    overflow-x: hidden;

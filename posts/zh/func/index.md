@@ -1,13 +1,13 @@
 # 用于go的功能
 
 2022-09-30
-2022-10-30
+2022-11-01
 [STARTRACE](/)
 
 这些功能位于./model/docs.go
 
 ```go
-func MarkdownPost(mdFilePath string) Post {}
+func RenderMarkdown(mdFilePath string) Post {}
 ```
 
 此功能将传入的字符串作为地址返回解析的目标文档
@@ -16,13 +16,7 @@ func MarkdownPost(mdFilePath string) Post {}
 func RenderPost(c *gin.Context) {}
 ```
 
-此功能将会合并cookie("lang")与请求路径为地址解析文档，并渲染至HTML模板
-
-```go
-func RenderPostAssigned(c *gin.Context, Assigned) {}
-```
-
-此功能将会合并Assigned与请求路径为地址解析文档，并渲染至HTML模板
+此功能将会合并"lang"与请求路径为地址解析文档，并渲染至HTML模板
 
 ```go
 func RenderCatalog(DirectoryFilePath string) []Cata {}
