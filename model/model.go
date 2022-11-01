@@ -1,13 +1,13 @@
 package model
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
 	"md/config"
 	"os"
 	"strings"
+	"github.com/gin-gonic/gin"
+	"github.com/russross/blackfriday"
 )
 
 type Post struct {
@@ -26,12 +26,15 @@ type Cata struct {
 }
 
 func RenderMarkdown(mdFilePath string) Post {
-	source := "" + config.PostsPath + "/" + mdFilePath + ".md"
+	source := config.PostsPath + "/" + mdFilePath + ".md"
 	if !IsExist(source) {
-		source = "" + config.PostsPath + "/" + mdFilePath + "index.md"
-	}
-	if !IsExist(source) {
-		source = "" + config.PostsPath + "/" + mdFilePath + "/index.md"
+		source = config.PostsPath + "/" + mdFilePath + "index.md"
+		if !IsExist(source) {
+			source = config.PostsPath + "/" + mdFilePath + "/index.md"
+			if !IsExist(source) {
+				source = config.PostsPath + "/" + mdFilePath
+			}
+		}
 	}
 	return ReadMarkdown(source)
 }
@@ -43,7 +46,7 @@ func RenderPost(c *gin.Context) {
 		dir = l.(string)
 	}
 	cata := RenderCatalog("." + config.PostsPath + "/" + dir + "/cata.txt")
-	url := dir + "/" + c.Param("url")
+	url := dir + c.Param("url")
 	post := RenderMarkdown(url)
 	c.HTML(200, "posts.html", gin.H{"Markdown": post, "Catalog": cata})
 }
@@ -111,6 +114,6 @@ func ReadMarkdown(source string) Post {
 		OriginFile: source}
 }
 func IsExist(path string) bool {
-	_, err := os.Stat(path)
+	_, err := os.Stat("." + path)
 	return err == nil || os.IsExist(err)
 }
