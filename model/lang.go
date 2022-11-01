@@ -15,6 +15,10 @@ func LangEN(r *gin.Engine) {
 		c.Set("lang", "en")
 	})
 	{
+		en.GET("/", func(c *gin.Context) {
+			post := ReadMarkdown("/README.md")
+			c.HTML(200, "posts.html", gin.H{"Markdown": post})
+		})
 		AutoPosts(en)
 	}
 }
@@ -26,6 +30,10 @@ func LangZH(r *gin.Engine) {
 		c.Set("lang", "zh")
 	})
 	{
+		zh.GET("/", func(c *gin.Context) {
+			post := ReadMarkdown("/README.zh.md")
+			c.HTML(200, "posts.html", gin.H{"Markdown": post})
+		})
 		AutoPosts(zh)
 	}
 }
@@ -37,14 +45,14 @@ func LangRU(r *gin.Engine) {
 		c.Set("lang", "ru")
 	})
 	{
+		ru.GET("/", func(c *gin.Context) {
+			post := ReadMarkdown("/README.ru.md")
+			c.HTML(200, "posts.html", gin.H{"Markdown": post})
+		})
 		AutoPosts(ru)
 	}
 }
 func AutoPosts(r *gin.RouterGroup) {
-	r.GET("/docs", func(c *gin.Context) {
-		RenderPost(c)
-	})
-	r.GET("/docs/*url", func(c *gin.Context) {
-		RenderPost(c)
-	})
+	docs:=r.Group("/docs")
+		docs.GET("/*url",func(c *gin.Context) {RenderPost(c)})
 }

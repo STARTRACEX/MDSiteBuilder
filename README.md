@@ -12,11 +12,9 @@
 
 *By default*:
 
- The document contains the same prefix "/docs". THE ROUTE before it (such as en or zh) will be mapped to the local "./posts/THE ROUTE/documents"
+ The document contains the same prefix "/docs",THE ROUTE before it (such as en or zh) will be mapped to the local "./posts/THE ROUTE/documents"
 
 "/" will return the readme file of the root directory "./README.md"
-
-"/docs" will return an index.md file that determines the language "/posts/.../index.md"
 
 "/docs/..." will return the file with the address of path and. md as the path. If the file does not exist, the path will be spliced with index.md. If it still does not exist, the path will be spliced with "/index.md"
 

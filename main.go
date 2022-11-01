@@ -14,14 +14,13 @@ func main() {
 	r.Static(config.PostsPath, "."+config.PostsPath)
 	r.StaticFile("/favicon.ico", "./favicon.ico")
 	r.StaticFile("/README.md", "README.md")
-	// 
+	//
 	r.GET("/", func(c *gin.Context) {
 		post := model.ReadMarkdown("/README.md")
 		c.HTML(200, "posts.html", gin.H{"Markdown": post})
 	})
-	// 
-	r.GET("/docs", model.RenderPost)
-	r.GET("/docs/*url", model.RenderPost)
+	g := r.Group("/")
+	model.AutoPosts(g)
 	model.LangEN(r)
 	model.LangZH(r)
 	model.LangRU(r)
