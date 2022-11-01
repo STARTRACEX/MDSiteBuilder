@@ -27,7 +27,6 @@ type Cata struct {
 
 func RenderMarkdown(mdFilePath string) Post {
 	source := "" + config.PostsPath + "/" + mdFilePath + ".md"
-
 	if !IsExist(source) {
 		source = "" + config.PostsPath + "/" + mdFilePath + "index.md"
 	}
