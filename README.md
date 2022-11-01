@@ -6,6 +6,8 @@
 
 ## Getting Started
 
+This is a part of [STARTRACEX.GITHUB.IO](https://startracex.github.io/)
+
 [LIBRARY](https://github.com/STARTRACEX/MDStaticSiteBuilder)
 
 ### URL as Path

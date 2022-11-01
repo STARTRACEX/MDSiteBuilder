@@ -6,6 +6,8 @@
 
 ## Введение
 
+Это часть [STARTRACEX.GITHUB.IO](https://startracex.github.io/)
+
 [библиотека](https://github.com/STARTRACEX/MDStaticSiteBuilder)
 
 ### URL как путь

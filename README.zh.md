@@ -6,6 +6,8 @@
 
 ## 入门
 
+这是[STARTRACEX.GITHUB.IO](https://startracex.github.io/)的一部分
+
 [库]<https://github.com/STARTRACEX/MDStaticSiteBuilder>)
 
 ### URL作为路径
