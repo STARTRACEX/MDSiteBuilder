@@ -27,11 +27,11 @@ type Cata struct {
 
 func RenderMarkdown(mdFilePath string) Post {
 	source := config.PostsPath + "/" + mdFilePath + ".md"
-	if !IsExist(source) {
+	if !IsExist("."+source) {
 		source = config.PostsPath + "/" + mdFilePath + "index.md"
-		if !IsExist(source) {
+		if !IsExist("."+source) {
 			source = config.PostsPath + "/" + mdFilePath + "/index.md"
-			if !IsExist(source) {
+			if !IsExist("."+source) {
 				source = config.PostsPath + "/" + mdFilePath
 			}
 		}
@@ -114,6 +114,6 @@ func ReadMarkdown(source string) Post {
 		OriginFile: source}
 }
 func IsExist(path string) bool {
-	_, err := os.Stat("." + path)
+	_, err := os.Stat(path)
 	return err == nil || os.IsExist(err)
 }
