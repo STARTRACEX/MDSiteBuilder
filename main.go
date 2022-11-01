@@ -3,7 +3,6 @@ package main
 import (
 	"md/config"
 	"md/model"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +13,6 @@ func main() {
 	r.Static(config.PostsPath, "."+config.PostsPath)
 	r.StaticFile("/favicon.ico", "./favicon.ico")
 	r.StaticFile("/README.md", "README.md")
-	//
 	r.GET("/", func(c *gin.Context) {
 		post := model.ReadMarkdown("/README.md")
 		c.HTML(200, "posts.html", gin.H{"Markdown": post})

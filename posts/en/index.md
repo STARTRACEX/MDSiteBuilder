@@ -47,4 +47,4 @@ Third party javascript plug-in (Highlight. js) and style parser (Less. js) are u
 ## Existing problems
 
 1. If you use markdown strict mode, a warning will appear in the summary in the second line (to solve this problem, you need to leave it blank or modify the parsing method of the summary)
-2. You cannot use Latex formula
+2. You cannot use advanced functions, such as Latex formula
