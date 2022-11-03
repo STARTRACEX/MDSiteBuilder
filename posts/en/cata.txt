@@ -1,0 +1,2 @@
+1\Use markdown in go\/en/docs/
+2\Functions mentioned\/en/docs/func/
