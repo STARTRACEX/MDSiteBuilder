@@ -3,6 +3,8 @@ package main
 import (
 	"md/config"
 	"md/model"
+	"path"
+	"strings"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,10 +19,17 @@ func main() {
 		post := model.ReadMarkdown("/README.md")
 		c.HTML(200, "posts.html", gin.H{"Markdown": post})
 	})
-	g := r.Group("/")
-	model.AutoPosts(g)
+	model.AutoPosts(r.Group("/"))
 	model.LangEN(r)
 	model.LangZH(r)
 	model.LangRU(r)
+	r.NoRoute(img)
 	r.Run(":" + config.Port)
+}
+func img(c *gin.Context) {
+	pathname, _ := c.GetQuery("pathname")
+	pathname = strings.Replace(pathname, config.PostsURL, "", 1)
+	filepath, _ := c.GetQuery("filepath")
+	e := path.Join(pathname, filepath)
+	c.File("." + config.PostsPath + e)
 }

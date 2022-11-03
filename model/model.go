@@ -1,13 +1,13 @@
 package model
 
 import (
+	"github.com/gin-gonic/gin"
+	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
 	"md/config"
 	"os"
 	"strings"
-	"github.com/gin-gonic/gin"
-	"github.com/russross/blackfriday"
 )
 
 type Post struct {
@@ -27,11 +27,11 @@ type Cata struct {
 
 func RenderMarkdown(mdFilePath string) Post {
 	source := config.PostsPath + "/" + mdFilePath + ".md"
-	if !IsExist("."+source) {
+	if !IsExist("." + source) {
 		source = config.PostsPath + "/" + mdFilePath + "index.md"
-		if !IsExist("."+source) {
+		if !IsExist("." + source) {
 			source = config.PostsPath + "/" + mdFilePath + "/index.md"
-			if !IsExist("."+source) {
+			if !IsExist("." + source) {
 				source = config.PostsPath + "/" + mdFilePath
 			}
 		}

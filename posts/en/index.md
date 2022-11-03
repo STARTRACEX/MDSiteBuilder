@@ -6,6 +6,8 @@
 
 ## Getting Started
 
+![这是图片](img/1.jpg "Magic Gardens")
+
 ### Use directory
 
 Write directory file (saved in posts/zh/data.txt)

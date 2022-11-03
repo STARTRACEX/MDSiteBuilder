@@ -9,7 +9,7 @@
    <link rel="stylesheet" href="/public/css/posts.css">
    <style>
       html {
-         -webkit-overflow-scrolling: touch; 
+         -webkit-overflow-scrolling: touch;
       }
    </style>
 </head>
@@ -98,6 +98,14 @@
             $(".drags").css({ left: $(document).width() - width + 'px', right: 'auto' })
       };
       window.addEventListener('resize', rs);
+      var img = $(".markdown img")
+      if (img.length)
+         img.each(function () {
+            var a = $(this).attr('src')
+            var p = location.pathname
+            var i = `/img?pathname=${p}&&filepath=${a}`;
+            $(this).attr('src', i)
+         })
    </script>
    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>

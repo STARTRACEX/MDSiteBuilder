@@ -8,7 +8,7 @@ var Domain = "localhost"
 const HtmlGlobPath = "views/**/*.html"
 const StaticPath = "/public"
 const PostsPath = "/posts"
-const PostDefaultdPath = "/default"
+const PostsURL = "/docs"
 const ExpirationTime = 2592000
 
 func init() {

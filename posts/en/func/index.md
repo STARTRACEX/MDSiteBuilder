@@ -5,6 +5,7 @@
 [STARTRACE](/)
 
 These functions can be found in./model/docs.go
+![这是图片](../img/1.jpg "Magic Gardens")
 
 ```go
 func RenderMarkdown(mdFilePath string) Post {}
