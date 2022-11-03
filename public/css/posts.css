@@ -25,10 +25,6 @@
    background-color: rgb(85, 85, 85);
 }
 
-html {
-   margin-right: calc(100% - 100vw);
-}
-
 body {
    margin: 0;
    overflow-x: hidden;
@@ -56,10 +52,10 @@ time {
 }
 
 .markdown {
-   width: calc(40% + 200px);
+   width: calc(50% + 95px);
 }
 
-.drags {
+#overview {
    position: fixed;
    z-index: 910;
    width: auto;
@@ -69,7 +65,7 @@ time {
    border-radius: 8px;
 }
 
-.dark .drags {
+.dark #overview {
    background-color: var(--nav_dark) !important;
 }
 
@@ -228,7 +224,7 @@ nav a:hover {
    stroke: var(--icon_dark)
 }
 
-@media (max-width: 600px) {
+@media (max-width: 720px) {
    .markdown {
       margin-top: 43px;
       width: 95%;
@@ -246,7 +242,7 @@ nav a:hover {
       width: fit-content;
    }
 
-   .h600 {
+   .h720 {
       display: none;
    }
 
@@ -266,8 +262,9 @@ nav a:hover {
 
 #totop {
    position: fixed;
-   right: 2.5%;
-   bottom: 5%;
+   z-index: 990;
+   right: 3%;
+   bottom: 4.5%;
 }
 
 #lang>div {
@@ -306,4 +303,8 @@ pre {
 
 .copied path {
    stroke: rgb(126, 231, 135);
+}
+
+.drags {
+   right: 0;
 }

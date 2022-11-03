@@ -7,11 +7,16 @@
    <script src="https://cdn.jsdelivr.net/npm/less@4"></script>
    <script src="/public/js/jquery.min.js"></script>
    <link rel="stylesheet" href="/public/css/posts.css">
+   <style>
+      html {
+         -webkit-overflow-scrolling: touch; 
+      }
+   </style>
 </head>
 
 <body>
    <nav>
-      <details id="catalog">
+      <details id="catalog" class="o1180">
          <summary>
             <svg width="38" height="38" viewBox="0 0 48 48" fill="none">
                <path d="M7.94971 11.9497H39.9497" stroke="#000" stroke-width="3" stroke-linecap="round"
@@ -49,9 +54,8 @@
          <div>{{template "color-mode"}}</div>
       </div>
    </nav>
-   <div class="drags h600" style="top:20%;">
-      <div id="contents">
-      </div>
+   <div id="overview" class="drags h720" style="top:20%;">
+      <div id="contents" class="hide"></div>
    </div>
    <a id="totop" href="javascript:scroll(0,0)">
       <svg width="40" height="40" viewBox="0 0 48 30" fill="none">
@@ -63,47 +67,17 @@
    </a>
    {{template "MarkdownRenderer" .}}
    <script>
-      const scrollwidth = 10
-      if ($(window).width() - scrollwidth >= 1160) $("#catalog").attr("open", true);
+      if ($(document).width() >= 1180) $(".o1180").attr("open", true);
+      console.log($(document).width())
       const themeMedia = window.matchMedia("(prefers-color-scheme: dark)"); if (themeMedia.matches) document.documentElement.classList.add("dark"); function theme() { if (document.documentElement.classList.contains("dark")) document.documentElement.classList.remove("dark"); else document.documentElement.classList.add("dark"); }
+      const tocopy = '<svg width="20" height="20" viewBox="0 0 48 48" fill="none"><path d="M13 12.4316V7.8125C13 6.2592 14.2592 5 15.8125 5H40.1875C41.7408 5 43 6.2592 43 7.8125V32.1875C43 33.7408 41.7408 35 40.1875 35H35.5163" stroke="#333" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32.1875 13H7.8125C6.2592 13 5 14.2592 5 15.8125V40.1875C5 41.7408 6.2592 43 7.8125 43H32.1875C33.7408 43 35 41.7408 35 40.1875V15.8125C35 14.2592 33.7408 13 32.1875 13Z" fill="none" stroke="#333" stroke-width="3" stroke-linejoin="round"/></svg>'
+      const ifcopy = '<svg width="20" height="20" viewBox="0 0 48 48" fill="none"><path d="M10 24L20 34L40 14" stroke="#333" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
       $(function () {
-         var $box = $(".drags");
-         $box.css({ //TODO  -10 scroll width
-            left: $(window).width() - scrollwidth - $box.width() + 'px'
-         })
-         $box.mousedown(function (event) {
-            var old_left = event.pageX;
-            var old_top = event.pageY;
-            var old_position_left = $(this).position().left;
-            var old_position_top = $(this).position().top;
-            $(document).mousemove(function (event) {
-               var new_left = event.pageX;
-               var new_top = event.pageY;
-               var chang_x = new_left - old_left;
-               var change_y = new_top - old_top;
-               var new_position_left = old_position_left + chang_x;
-               var new_position_top = old_position_top + change_y;
-               if (new_position_top < 0) new_position_top = 0;
-               if (new_position_top > $(window).height() - $box.height()) new_position_top = $(window).height() - $box.height();
-               if (new_position_left > $(window).width() - scrollwidth - $box.width()) new_position_left = $(window).width() - scrollwidth - $box.width();
-               if (new_position_left < 0) new_position_left = 0;
-               $box.css({
-                  left: new_position_left + 'px',
-                  top: new_position_top + 'px'
-               })
-            });
-            $box.mouseup(function () {
-               $(document).off("mousemove");
-            })
-         });
-         const tocopy = '<svg width="20" height="20" viewBox="0 0 48 48" fill="none"><path d="M13 12.4316V7.8125C13 6.2592 14.2592 5 15.8125 5H40.1875C41.7408 5 43 6.2592 43 7.8125V32.1875C43 33.7408 41.7408 35 40.1875 35H35.5163" stroke="#333" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32.1875 13H7.8125C6.2592 13 5 14.2592 5 15.8125V40.1875C5 41.7408 6.2592 43 7.8125 43H32.1875C33.7408 43 35 41.7408 35 40.1875V15.8125C35 14.2592 33.7408 13 32.1875 13Z" fill="none" stroke="#333" stroke-width="3" stroke-linejoin="round"/></svg>'
-         const ifcopy = '<svg width="20" height="20" viewBox="0 0 48 48" fill="none"><path d="M10 24L20 34L40 14" stroke="#333" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
          var pres = $("pre");
          if (pres.length)
             pres.each(function () {
                var tx = $(this).children("code").text();
-               var btn = $('<span class="copy">' + tocopy + '</span>').attr(
-                  "data-clipboard-text", tx);
+               var btn = $('<span class="copy">' + tocopy + '</span>').attr("data-clipboard-text", tx);
                $(this).prepend(btn);
                var c = new ClipboardJS(btn[0]);
                c.on("success", function () {
@@ -117,17 +91,11 @@
                });
             });
       });
-      $(".drags").on("dblclick", function () {
-         if (!$(".drags").hasClass("pell"))
-            $(".drags").addClass("pell");
-         else
-            $(".drags").removeClass("pell");
-      })
       const rs = () => {
          var left = $(".drags").position().left;
          var width = $(".drags").width()
-         if ($(window).width() - scrollwidth - width < left)
-            $(".drags").css({ left: $(window).width() - scrollwidth - width + 'px' })
+         if ($(document).width() - width < left)
+            $(".drags").css({ left: $(document).width() - width + 'px', right: 'auto' })
       };
       window.addEventListener('resize', rs);
    </script>
@@ -140,6 +108,49 @@
          list.push('<a class=' + $(this)[0].nodeName + ' href="#' + $(this).text() + '">' + $(this).text() + '</a>')
       });
       $('#contents').prepend(list);
+      $(function () {
+         var $box = $("#overview");
+         eleDragStatus($box)
+      });
+      function eleDragStatus($box) {
+         $box.mousedown(function (event) {
+            var old_left = event.pageX;
+            var old_top = event.pageY;
+            var old_position_left = $(this).position().left;
+            var old_position_top = $(this).position().top;
+            $(document).mousemove(function (event) {
+               var new_left = event.pageX;
+               var new_top = event.pageY;
+               var chang_x = new_left - old_left;
+               var change_y = new_top - old_top;
+               var new_position_left = old_position_left + chang_x;
+               var new_position_top = old_position_top + change_y;
+               if (new_position_top < 0) new_position_top = 0;
+               if (new_position_top > document.body.clientHeight - $box.height())
+                  new_position_top = document.body.clientHeight - $box.height();
+               if (new_position_left > $(document).width() - $box.width()) new_position_left = $(document).width() - $box.width();
+               if (new_position_left < 0) new_position_left = 0;
+               $box.css({
+                  left: new_position_left + 'px',
+                  top: new_position_top + 'px',
+                  right: 'auto'
+               })
+            });
+            $box.mouseup(function () {
+               $(document).off("mousemove");
+            })
+         });
+      }
+      $(".drags").on("dblclick", function () {
+         if (!$(".drags").hasClass("pell"))
+            $(".drags").addClass("pell");
+         else
+            $(".drags").removeClass("pell");
+         $(".drags").css({
+            left: 'auto',
+            right: '0'
+         })
+      })
       hljs.highlightAll();
    </script>
 </body>
