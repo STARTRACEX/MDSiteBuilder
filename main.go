@@ -1,11 +1,11 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"md/config"
 	"md/model"
 	"path"
 	"strings"
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -23,13 +23,18 @@ func main() {
 	model.LangEN(r)
 	model.LangZH(r)
 	model.LangRU(r)
-	r.NoRoute(img)
+	r.GET("/img", img)
 	r.Run(":" + config.Port)
 }
 func img(c *gin.Context) {
 	pathname, _ := c.GetQuery("pathname")
-	pathname = strings.Replace(pathname, config.PostsURL, "", 1)
 	filepath, _ := c.GetQuery("filepath")
-	e := path.Join(pathname, filepath)
-	c.File("." + config.PostsPath + e)
+	if strings.Contains(pathname, config.PostsURL) {
+		pathname = strings.Replace(pathname, config.PostsURL, "", 1)
+		e := path.Join(pathname, filepath)
+		c.File("." + config.PostsPath + e)
+	} else {
+		e := path.Join(pathname, filepath)
+		c.File("." + e)
+	}
 }
