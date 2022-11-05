@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"md/config"
 	"md/model"
 	"path"
@@ -9,7 +10,12 @@ import (
 )
 
 func main() {
+	if !config.Dev {
+		gin.SetMode(gin.ReleaseMode)
+		gin.DefaultWriter = ioutil.Discard
+	}
 	r := gin.Default()
+
 	r.LoadHTMLGlob(config.HtmlGlobPath)
 	r.Static(config.StaticPath, "."+config.StaticPath)
 	r.Static(config.PostsPath, "."+config.PostsPath)
@@ -31,10 +37,10 @@ func img(c *gin.Context) {
 	filepath, _ := c.GetQuery("filepath")
 	if strings.Contains(pathname, config.PostsURL) {
 		pathname = strings.Replace(pathname, config.PostsURL, "", 1)
-		e := path.Join(pathname, filepath)
+		e := path.Join(path.Dir(pathname), filepath)
 		c.File("." + config.PostsPath + e)
 	} else {
-		e := path.Join(pathname, filepath)
+		e := path.Join(path.Dir(pathname), filepath)
 		c.File("." + e)
 	}
 }

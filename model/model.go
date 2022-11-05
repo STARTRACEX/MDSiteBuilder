@@ -1,13 +1,14 @@
 package model
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
 	"md/config"
 	"os"
+	"path"
 	"strings"
+	"github.com/gin-gonic/gin"
+	"github.com/russross/blackfriday"
 )
 
 type Post struct {
@@ -25,7 +26,7 @@ type Cata struct {
 	Level string
 }
 
-func RenderMarkdown(mdFilePath string) Post {
+func RenderMarkdown(c *gin.Context, mdFilePath string) Post {
 	source := config.PostsPath + "/" + mdFilePath + ".md"
 	if !IsExist("." + source) {
 		source = config.PostsPath + "/" + mdFilePath + "index.md"
@@ -33,6 +34,9 @@ func RenderMarkdown(mdFilePath string) Post {
 			source = config.PostsPath + "/" + mdFilePath + "/index.md"
 			if !IsExist("." + source) {
 				source = config.PostsPath + "/" + mdFilePath
+				if path.Ext(source) != ".md" {
+					c.Abort()
+				}
 			}
 		}
 	}
@@ -47,7 +51,7 @@ func RenderPost(c *gin.Context) {
 	}
 	cata := RenderCatalog("." + config.PostsPath + "/" + dir + "/cata.txt")
 	url := dir + c.Param("url")
-	post := RenderMarkdown(url)
+	post := RenderMarkdown(c, url)
 	c.HTML(200, "posts.html", gin.H{"Markdown": post, "Catalog": cata})
 }
 

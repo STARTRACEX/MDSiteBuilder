@@ -1,8 +1,8 @@
 package model
 
 import (
-	"md/config"
 	"github.com/gin-gonic/gin"
+	"md/config"
 )
 
 type Zh struct{}
