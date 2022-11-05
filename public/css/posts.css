@@ -79,6 +79,7 @@ time {
 
 #contents a {
    display: block;
+   width: fit-content;
    text-decoration: none;
    color: var(--nav_super_light);
 }

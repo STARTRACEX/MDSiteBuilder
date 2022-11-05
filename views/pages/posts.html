@@ -9,7 +9,7 @@
    <link rel="stylesheet" href="/public/css/posts.css">
    <style>
       html {
-         -webkit-overflow-scrolling: touch; 
+         -webkit-overflow-scrolling: touch;
       }
    </style>
 </head>
@@ -67,6 +67,14 @@
    </a>
    {{template "MarkdownRenderer" .}}
    <script>
+      const postsImagesApi = '/img'
+      const img = $(".markdown img")
+      if (img.length)
+         img.each(function () {
+            if ($(this).attr('src').indexOf("/public") != 0) {
+               $(this).attr('src', `${postsImagesApi}?pathname=${location.pathname}&&filepath=${$(this).attr('src')}`)
+            }
+         })
       if ($(document).width() >= 1180) $(".o1180").attr("open", true);
       console.log($(document).width())
       const themeMedia = window.matchMedia("(prefers-color-scheme: dark)"); if (themeMedia.matches) document.documentElement.classList.add("dark"); function theme() { if (document.documentElement.classList.contains("dark")) document.documentElement.classList.remove("dark"); else document.documentElement.classList.add("dark"); }

@@ -2,6 +2,7 @@ package model
 
 import (
 	"github.com/gin-gonic/gin"
+	"md/config"
 )
 
 type Zh struct{}
@@ -53,6 +54,6 @@ func LangRU(r *gin.Engine) {
 	}
 }
 func AutoPosts(r *gin.RouterGroup) {
-	docs:=r.Group("/docs")
-		docs.GET("/*url",func(c *gin.Context) {RenderPost(c)})
+	docs := r.Group(config.PostsURL)
+	docs.GET("/*url", func(c *gin.Context) { RenderPost(c) })
 }
