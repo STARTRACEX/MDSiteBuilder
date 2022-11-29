@@ -20,6 +20,7 @@ func main() {
 	r.Static(config.StaticPath, "."+config.StaticPath)
 	r.Static(config.PostsPath, "."+config.PostsPath)
 	r.StaticFile("/favicon.ico", "./favicon.ico")
+	r.StaticFile("/robots.txt", "./robots.txt")
 	r.StaticFile("/README.md", "README.md")
 	r.GET("/", func(c *gin.Context) {
 		post := model.ReadMarkdown("/README.md")

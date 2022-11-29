@@ -27,7 +27,7 @@ type Cata struct {
 }
 
 func RenderMarkdown(c *gin.Context, mdFilePath string) Post {
-	if path.Ext(mdFilePath) != ".md" ||path.Ext(mdFilePath) != ""{
+	if path.Ext(mdFilePath) != ".md" || path.Ext(mdFilePath) != "" {
 		c.Abort()
 	}
 	source := config.PostsPath + "/" + mdFilePath + ".md"
