@@ -1,7 +1,9 @@
 package model
 
 import (
-	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/goccy/go-yaml"
+	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
 	"md/config"
@@ -9,15 +11,13 @@ import (
 	"path"
 	"regexp"
 	"strings"
-	"github.com/gin-gonic/gin"
-	"github.com/russross/blackfriday"
-	"gopkg.in/yaml.v2"
 )
 
 // md文件的元数据结构
 type baseconfig struct {
 	Title   string   `yaml:"title,omitempty"`
-	Author  []string `yaml:"author,omitempty"`
+	Author  string   `yaml:"author,omitempty"`
+	Authors []string `yaml:"authors,omitempty"`
 	Summary string   `yaml:"summary,omitempty"`
 	Date    string   `yaml:"date,omitempty"`
 	Update  string   `yaml:"update,omitempty"`
@@ -106,22 +106,26 @@ func ReadMarkdown(source string) Post {
 		}
 	}
 	meta, metalen := getMeta(string(fileread))
-	if metalen > 0 {
-		fmt.Println(meta,metalen)
-		var config baseconfig
-		yaml.Unmarshal([]byte(meta), &config)
-		if config.Title==""{
+	var config baseconfig
+	yaml.Unmarshal([]byte(meta), &config)
+	if metalen > 0 && !isYamlEmpty(config) {
+		if config.Title == "" {
 			title = getTitie(string(fileread))
-		}else{
-			title=config.Title
+		} else {
+			title = config.Title
 		}
 		summary = config.Summary
 		update = config.Update
 		date = config.Date
-		author = string(blackfriday.MarkdownCommon([]byte(strings.Join(config.Author, " "))))
+		if len(config.Authors) > 0 {
+			author = string(blackfriday.MarkdownCommon([]byte(strings.Join(config.Authors, " "))))
+		} else {
+			author = string(blackfriday.MarkdownCommon([]byte(config.Author)))
+		}
 		body = string(blackfriday.MarkdownCommon(fileread[metalen:]))
-	} else {
-		// 按行解析元数据
+	}
+	if metalen == 0 || isYamlEmpty(config) {
+		// 按行解析元数据,元数据长度为0并且解析为空
 		lines := strings.Split(string(fileread), "\n")
 		if len(lines) > 0 {
 			title = strings.ReplaceAll(strings.ReplaceAll(string(lines[0]), "\r", ""), "# ", "")
@@ -169,3 +173,6 @@ func getTitie(data string) string {
 	return strings.ReplaceAll(re.FindString(data), "# ", "")
 }
 
+func isYamlEmpty(config baseconfig) bool {
+	return config.Title == "" && config.Date == "" && config.Update == "" && config.Summary == "" && len(config.Author) == 0
+}

@@ -1,7 +1,11 @@
+---
+author: "[STARTRACEX](https://github.com/STARTRACEX/MDStaticSiteBuilder)"
+date: 2022-11-01
+update: 2022-12-25
+summary: A simple site builder
+---
 # MDStaticSiteBuilder
 
-2022-11-01
-2022-12-24
 [STARTRACEX](https://github.com/STARTRACEX/MDStaticSiteBuilder)
 
 ## Getting Started
@@ -19,6 +23,13 @@ The following rules will be followed by default
 - If the file as the path does not exist after splicing, the path will be spliced with index.md. If the file still does not exist, the path will be spliced with "/index.md". If the file does not exist, all documents with default values will be returned
 - The metadata of the document can be the yaml content between three dashes and the newline. If the metadata does not exist, each line of the text will be used as the metadata, or the default value will be maintained
 - The catal.txt document under each language name directory will become the sidebar directory when using this language, except the content under the root directory
+- Resource paths that do not begin with "/public" will be considered as paths relative to document files
+
+### Use yaml
+
+You can use yaml in the document, or use the content separated by lines as the document metadata, as shown in the first line of the document.
+Yaml parses the following contents: "author, summary, date, update, title" (string type), "author" (string array type)
+**Note** The author will be overwritten by the existing authors. The non-existent title will be the first level title of the document. The author can use the markdown syntax. Please use (") to include
 
 ### Out-of-the-box
 
@@ -32,7 +43,7 @@ Set the port number and domain name by carrying the following flags
 -Dev<enable the output of gin>
 
 Example
-./main.exe -p 80 -d localhost -dev
+main\main.exe -p 8080 -d localhost -dev
 ```
 
 After running [Visit this page] (http: localhost: 8080/)
