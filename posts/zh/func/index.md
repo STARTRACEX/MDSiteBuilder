@@ -4,7 +4,7 @@
 2022-11-01
 [STARTRACE](/)
 
-这些功能位于./model/docs.go
+这些功能位于./model
 
 ```go
 func RenderMarkdown(mdFilePath string) Post {}

@@ -4,7 +4,7 @@
 2022-11-01
 [STARTRACE](/)
 
-These functions can be found in./model/docs.go
+These functions can be found in./model
 
 ```go
 func RenderMarkdown(mdFilePath string) Post {}
