@@ -42,7 +42,7 @@ type Cata struct {
 }
 
 func RenderMarkdown(c *gin.Context, mdFilePath string) Post {
-	if path.Ext(mdFilePath) != ".md" || path.Ext(mdFilePath) != "" {
+	if path.Ext(mdFilePath) != "" || path.Ext(mdFilePath) != ".md" {
 		c.Abort()
 	}
 	source := config.PostsPath + "/" + mdFilePath + ".md"
@@ -146,7 +146,6 @@ func ReadMarkdown(source string) Post {
 			body = string(blackfriday.MarkdownCommon([]byte(lines[0]))) + string(blackfriday.MarkdownCommon([]byte(strings.Join(lines[5:], ""))))
 		}
 	}
-
 	return Post{
 		Title:      title,
 		Summary:    summary,
