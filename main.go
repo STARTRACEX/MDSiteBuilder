@@ -11,6 +11,7 @@ func main() {
 	if !config.Dev {
 		gin.SetMode(gin.ReleaseMode)
 	}
+	// r := gin.Default()
 	r := gin.New()
 	r.Use(gin.Recovery())
 	r.LoadHTMLGlob(config.HtmlGlobPath)
@@ -21,7 +22,7 @@ func main() {
 	}
 	r.StaticFile("/favicon.ico", "."+config.StaticPath+"/favicon.ico")
 	r.StaticFile("/robots.txt", "."+config.StaticPath+"/robots.txt")
-	
+
 	r.StaticFile("/README.md", "./README.md")
 	r.StaticFile("/README.zh.md", "./README.zh.md")
 	r.StaticFile("/README.ru.md", "./README.ru.md")
@@ -32,9 +33,7 @@ func main() {
 	})
 	model.AutoPosts(r.Group("/"))
 	/* i18n */
-	model.LangEN(r)
-	model.LangZH(r)
-	model.LangRU(r)
+	model.I18ninit(r)
 	/* img */
 	r.GET("/img", model.Img)
 	r.Run(":" + config.Port)

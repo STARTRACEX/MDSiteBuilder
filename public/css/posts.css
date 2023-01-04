@@ -7,7 +7,8 @@
   --nav_super_hov: rgb(25 22 44);
   --icon: rgb(17 18 18);
   --unit: #84baef;
-  --middle: rgb(145 145 145/ 95%)
+  --middle: rgb(135 135 135 / 10%);
+  --reading:rgb(11 34 86);
 }
 
 .dark:root {
@@ -15,9 +16,10 @@
   --nav: rgb(36 36 42 / 95%);
   --nav_hov: rgb(70 70 70 / 95%);
   --nav_super: rgb(225 240 240);
-  --nav_super_hov: rgb(238 255 246);
+  --nav_super_hov: rgb(201 234 236);
   --icon: rgba(240 240 240);
   --unit: rgb(65 131 196);
+  --reading:rgb(142 168 227);
 }
 
 ::selection {
@@ -31,6 +33,7 @@
 }
 
 ::-webkit-scrollbar {
+  width: 8px;
   background-color: transparent
 }
 
@@ -43,6 +46,15 @@ body {
   margin: 0;
   overflow-x: hidden;
   background-color: var(--body)
+}
+
+details::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
+details[open]::-webkit-scrollbar {
+  width: 6.8px;
 }
 
 title {
@@ -62,7 +74,7 @@ time {
 }
 
 .markdown {
-  width: calc(50% + 195px)
+  width: calc(50% + 235px)
 }
 
 #-overview {
@@ -94,49 +106,54 @@ time {
 
 #-contents {
   cursor: auto;
-  margin: -4px 12px 6px;
-  padding-top: 2px;
+  margin: -4px 12px 12px 8px;
 }
 
 #-contents a {
   display: block;
-  width: fit-content;
   text-decoration: none;
-  color: var(--nav_super)
+  color: var(--nav_super);
+  padding:.1rem .5rem 
+  
 }
 
 #-contents a:hover {
-  text-decoration: underline
+  text-decoration: underline;
+  color: var(--nav_super_hov);
 }
 
+.reading {
+  color: var(--reading) !important;
+  background-color: var(--middle) !important;
+}
 
 a.H1 {
   font-size: 1.22em;
 }
 
 a.H2 {
-  margin-left: 0.75em;
-  font-size: 1.16em
+  padding-left: 0.75em !important;
+  font-size: 1.16em;
 }
 
 a.H3 {
-  margin-left: 1.5em;
-  font-size: 1.13em
+  padding-left: 1.5em !important;
+  font-size: 1.13em;
 }
 
 a.H4 {
-  margin-left: 2.25em;
-  font-size: 1.09em
+  padding-left: 2.25em  !important;
+  font-size: 1.09em;
 }
 
 a.H5 {
-  margin-left: 3em;
-  font-size: 1.06em
+  padding-left: 3em !important;
+  font-size: 1.06em;
 }
 
 a.H6 {
-  margin-left: 3.75em;
-  font-size: 1.03em
+  padding-left: 3.75em !important;
+  font-size: 1.03em;
 }
 
 summary::marker {
@@ -156,7 +173,6 @@ summary::-webkit-details-marker {
 nav {
   --nav-short: 48px;
   --nav-pd: 4px;
-  /* width: calc(var(--nav-short) + var(--nav-pd) * 2); */
   min-height: var(--nav-short);
   min-width: var(--nav-short);
   box-sizing: border-box;
@@ -189,6 +205,15 @@ nav a:hover {
   text-align: center;
 }
 
+.nav-cat {
+  overflow-y: auto;
+}
+
+#-catalog div {
+  padding: 4px;
+  max-height: 100%;
+}
+
 #-catalog summary {
   position: relative;
   min-width: 48px;
@@ -199,10 +224,6 @@ nav a:hover {
   position: absolute;
   left: 5px;
   margin-top: 2px
-}
-
-#-catalog a {
-  padding: 0 8px 0 16px
 }
 
 #-catalog a:first-child {
@@ -231,11 +252,12 @@ nav a:hover {
 }
 
 #-totop {
-  opacity: 0.65;
+  opacity: 0;
   position: fixed;
   z-index: 990;
   right: 3%;
-  bottom: 7.5%
+  bottom: 7.5%;
+  transition: all 0.35s;
 }
 
 #-lang {
@@ -290,7 +312,7 @@ pre .copied path {
 
 @media (max-width:720px) {
   .markdown {
-    width: 95%;
+    width: 100%;
     padding: 2.5%;
   }
 
@@ -315,12 +337,15 @@ pre .copied path {
     margin: 0 18px;
   }
 
+  #-contents {
+    padding: 5vmin;
+  }
+
   nav {
     padding-left: 7.6px;
     height: fit-content;
     width: 100%;
     flex-direction: row-reverse;
-    align-items: center;
     position: static;
   }
 

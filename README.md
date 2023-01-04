@@ -1,12 +1,12 @@
 ---
-author: "[STARTRACEX](https://github.com/STARTRACEX/MDStaticSiteBuilder)"
+author: "[STARTRACEX](https://github.com/STARTRACEX/MDSiteBuilder)"
 date: 2022-11-01
-update: 2022-12-25
+update: 2023-01-04
 summary: A simple site builder
 ---
-# MDStaticSiteBuilder
+# MDSiteBuilder
 
-[STARTRACEX](https://github.com/STARTRACEX/MDStaticSiteBuilder)
+[STARTRACEX](https://github.com/STARTRACEX/MDSiteBuilder)
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ The following rules will be followed by default
 - The document will be matched with the prefix "/docs". The path before it (such as en or zh) and the path after it (the relative file path) will be mapped to the local "./posts/...", for example (./posts/ru/a/b.md will be matched by/ru/docs/a/b)
 - If the file as the path does not exist after splicing, the path will be spliced with index.md. If the file still does not exist, the path will be spliced with "/index.md". If the file does not exist, all documents with default values will be returned
 - The metadata of the document can be the yaml content between three dashes and the newline. If the metadata does not exist, each line of the text will be used as the metadata, or the default value will be maintained
-- The catal.txt document under each language name directory will become the sidebar directory when using this language, except the content under the root directory
+- The. yml document under each language name directory and the. yml document within the directory path will become the sidebar directory when using this language
 - Resource paths that do not begin with "/public" will be considered as paths relative to document files
 
 ### Use yaml
@@ -38,15 +38,17 @@ Start the service by running the executable
 Set the port number and domain name by carrying the following flags
 
 ```terminal
--P<port number>
--D<domain name>
--Dev<enable the output of gin>
+-p <port number>
+-d <domain name>
+-dev <Set gin mode to debug>
 
 Example
 main\main.exe -p 8080 -d localhost -dev
 ```
 
-After running [Visit this page] (http: localhost: 8080/)
+Access these pages after running
+[Home] (http: localhost: 8080/)
+[Documentation] (http: localhost: 8080/docs/)
+Change the language to add '/zh' or '/ru' or '/en' at the beginning of the path (default)
 
-Basic styles and scripts have been prepared:
-Including multilingual, theme, copybox directory, progress, source...
+Basic styles and scripts are ready in the folder

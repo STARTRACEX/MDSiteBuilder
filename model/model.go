@@ -5,7 +5,6 @@ import (
 	"github.com/goccy/go-yaml"
 	"github.com/russross/blackfriday"
 	"html/template"
-	"io/ioutil"
 	"md/config"
 	"os"
 	"path"
@@ -14,7 +13,7 @@ import (
 )
 
 // md文件的元数据结构
-type baseconfig struct {
+type Meta struct {
 	Title   string   `yaml:"title,omitempty"`
 	Author  string   `yaml:"author,omitempty"`
 	Authors []string `yaml:"authors,omitempty"`
@@ -37,63 +36,51 @@ type Post struct {
 // 目录文件数据结构
 type Cata struct {
 	Name  string
-	Super string
 	Level string
-}
-
-func RenderMarkdown(c *gin.Context, mdFilePath string) Post {
-	if path.Ext(mdFilePath) != "" || path.Ext(mdFilePath) != ".md" {
-		c.Abort()
-	}
-	source := config.PostsPath + "/" + mdFilePath + ".md"
-	if !IsExist("." + source) {
-		source = config.PostsPath + "/" + mdFilePath + "index.md"
-		if !IsExist("." + source) {
-			source = config.PostsPath + "/" + mdFilePath + "/index.md"
-			if !IsExist("." + source) {
-				source = config.PostsPath + "/" + mdFilePath
-			}
-		}
-	}
-	return ReadMarkdown(source)
+	Super string
 }
 
 func RenderPost(c *gin.Context) {
-	var dir string = "zh"
+	var dir string = config.DefaultLang
 	l, e := c.Get("lang")
 	if e {
 		dir = l.(string)
 	}
-	cata := RenderCatalog("." + config.PostsPath + "/" + dir + "/cata.txt")
-	url := dir + c.Param("url")
-	post := RenderMarkdown(c, url)
-	c.HTML(200, "posts.html", gin.H{"Markdown": post, "Catalog": cata})
-}
-
-func RenderCatalog(DirectoryFilePath string) []Cata {
-	data, _ := ioutil.ReadFile(DirectoryFilePath)
-	lines := strings.Split(string(data), "\n")
-	var C []Cata
-	for _, line := range lines {
-		line = strings.ReplaceAll(line, "\r", "")
-		s := strings.Split(line, "\\")
-		if len(s) < 2 {
-			break
-		}
-		S := Cata{
-			Super: s[2],
-			Name:  s[1],
-			Level: s[0],
-		}
-		C = append(C, S)
+	mdFilePath := dir + c.Param("url")
+	if path.Ext(mdFilePath) != "" || path.Ext(mdFilePath) != ".md" {
+		c.Abort()
 	}
-	return C
+	// 检查存在性
+	// 直接存在.md
+	source := config.PostsPath + "/" + mdFilePath + ".md"
+	if !IsExist("." + source) {
+		// 属于文件夹,存在index.md文件
+		source = config.PostsPath + "/" + mdFilePath + "index.md"
+		if !IsExist("." + source) {
+			// 属于文件夹,存在index文件
+			source = config.PostsPath + "/" + mdFilePath + "/index.md"
+			if !IsExist("." + source) {
+				// 直接存在文件
+				source = config.PostsPath + "/" + mdFilePath
+				if !IsExist("." + source) {
+					// 出错
+					c.Abort()
+				}
+			}
+		}
+	}
+	post := ReadMarkdown(source)
+	cat := WalkCata(path.Join(".", config.PostsPath, dir, config.Cat))
+	c.HTML(200, "posts.html", gin.H{
+		"Markdown": post,
+		"Catalog":  cat,
+	})
 }
 
 func ReadMarkdown(source string) Post {
 	var body, summary, author string
 	var title, date, update string = "Undefined", "Unknow", "Unknow"
-	fileread, err := ioutil.ReadFile("." + source)
+	fileread, err := os.ReadFile("." + source)
 	if err != nil {
 		return Post{
 			Title:      title,
@@ -106,7 +93,7 @@ func ReadMarkdown(source string) Post {
 		}
 	}
 	meta, metalen := getMeta(string(fileread))
-	var config baseconfig
+	var config Meta
 	yaml.Unmarshal([]byte(meta), &config)
 	if metalen > 0 && !isYamlEmpty(config) {
 		if config.Title == "" {
@@ -155,6 +142,7 @@ func ReadMarkdown(source string) Post {
 		Body:       template.HTML(body),
 		OriginFile: source}
 }
+
 func IsExist(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil || os.IsExist(err)
@@ -172,6 +160,45 @@ func getTitie(data string) string {
 	return strings.ReplaceAll(re.FindString(data), "# ", "")
 }
 
-func isYamlEmpty(config baseconfig) bool {
+func isYamlEmpty(config Meta) bool {
 	return config.Title == "" && config.Date == "" && config.Update == "" && config.Summary == "" && len(config.Author) == 0
+}
+
+/* Deprecated */
+
+func RenderMarkdown(c *gin.Context, mdFilePath string) Post {
+	if path.Ext(mdFilePath) != "" || path.Ext(mdFilePath) != ".md" {
+		c.Abort()
+	}
+	source := config.PostsPath + "/" + mdFilePath + ".md"
+	if !IsExist("." + source) {
+		source = config.PostsPath + "/" + mdFilePath + "index.md"
+		if !IsExist("." + source) {
+			source = config.PostsPath + "/" + mdFilePath + "/index.md"
+			if !IsExist("." + source) {
+				source = config.PostsPath + "/" + mdFilePath
+			}
+		}
+	}
+	return ReadMarkdown(source)
+}
+
+func RenderCatalog(DirectoryFilePath string) []Cata {
+	data, _ := os.ReadFile(DirectoryFilePath)
+	lines := strings.Split(string(data), "\n")
+	var C []Cata
+	for _, line := range lines {
+		line = strings.ReplaceAll(line, "\r", "")
+		s := strings.Split(line, "\\")
+		if len(s) < 2 {
+			break
+		}
+		S := Cata{
+			Super: s[2],
+			Name:  s[1],
+			Level: s[0],
+		}
+		C = append(C, S)
+	}
+	return C
 }

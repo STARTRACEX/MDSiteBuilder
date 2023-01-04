@@ -1,2 +1,0 @@
-1\использовать Markdown в go\/ru/docs/
-2\упомянуть функции\/ru/docs/func/

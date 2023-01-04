@@ -1,11 +1,10 @@
 ---
-author: "[STARTRACEX](https://github.com/STARTRACEX/MDStaticSiteBuilder)"
+author: "[STARTRACEX](https://github.com/STARTRACEX/MDSiteBuilder)"
 date: 2022-11-01
-update: 2022-12-25
+update: 2023-01-04
 summary: A simple site builder
 ---
-
-# MDStaticSiteBuilder
+# MDSiteBuilder
 
 ## 入门
 
@@ -21,7 +20,7 @@ summary: A simple site builder
 - 该文档将匹配包含前缀“/docs”,它之前的路径（如en或zh）和之后的路径（相对的文件路径）将映射到本地“./posts/...”，例如（./posts/ru/a/b.md将被/ru/docs/a/b匹配）
 - 如果拼接后作为路径的文件不存在，路径将与index.md拼接。如果文件仍然不存在，则路径将与“/index.md”拼接，如果文件不存在，将返回所有文档变量均为默认值的文档
 - 文档的元数据可由一三个短横线和换行之间的yaml内容作为元数据，如果元数据不存在，将尝试以文本的每行作为元数据，或是保持默认值
-- 每个语言名目录下的cata.txt文档将成为使用此语言时的侧边栏目录，根目录下的内容除外
+- 每个语言名目录下的.yml文档和其中包含目录路径内的.yml文档将成为使用此语言时的侧边栏目录
 - 不以“/public”开头的资源路径将会被认为是相对与文档文件的路径
 
 ### 使用yaml
@@ -40,13 +39,16 @@ yaml解析以下内容:"author,summary,date,update,title"(字符串类型),"auth
 ```terminal
 -p <端口号>
 -d <域名>
--dev <启用gin的输出>
+-dev <设置gin模式为调试>
 
 示例
 main\main.exe -p 8080 -d localhost -dev
 ```
 
-在运行后[访问此页面](http:localhost:8080/)
+在运行后访问这些页面
+[主页](http:localhost:8080/)
+[文档](http:localhost:8080/docs/)
 
-已准备好基本样式和脚本：
-包括多语言、主题、复制框、目录、进度、源代码……
+更改语言可在路径首位添加'/zh'或'/ru'或'/en'(默认)
+
+文件夹内已准备好基本样式和脚本

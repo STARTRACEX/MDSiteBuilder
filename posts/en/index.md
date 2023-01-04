@@ -8,25 +8,23 @@
 
 ### Use directory
 
-Write directory file (saved in posts/zh/data.txt)
-The format is &lt;indent level&gt;\\&lt;title&gt;\\&lt;URL path&gt;\\
-Example
+Write directory file (saved in ./posts/zh/.yml)
+The first item is the file name with suffix removed, and the second item is the title
 
-```txt
-
-1\TITLE\/en/docs/urlpath
-
+```yml
+index: "Docs"
+func: -
 ```
 
-### Multiterminal rendering
+The folder does not need a title name, which is determined by the index written by. yml under it, but needs to be specified here
 
-**Server rendering**\
+The first item that does not exist will be ignored
 
-The server will render the document and directory structure converted to markup language
+### Rendering
 
-**Client Rendering**\
+The go application will parse out the document and directory structure converted to markup language
 
-The client will render the title directory of a single document, which is executed by javascript
+javaScript will perform other functions of the page
 
 ***Code highlighting and theme colors***
 
@@ -43,8 +41,3 @@ Third party javascript plug-in (Highlight. js) and style parser (Less. js) are u
 |Update Date | 4 | Original String|
 |Author | 5 | Markup Language|
 |Document |1∩[6,∞)| Markup Language|
-
-## Existing problems
-
-1. If you use markdown strict mode, a warning will appear in the summary in the second line (to solve this problem, you need to leave it blank or modify the parsing method of the summary)
-2. You cannot use advanced functions, such as Latex formula

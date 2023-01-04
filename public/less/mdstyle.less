@@ -18,13 +18,14 @@
   --md-hr: #c3c3c35c;
   --md-text: #dddddd;
   --md-tabel-n: var(--md-bc);
-  --md-tabel-2n: #373a3e;
+  --md-tabel-2n: #28303b;
   --md-pre: #272935;
   --md-code: #e7f1ff;
   --md-a: #5497d9;
 }
 
 .markdown {
+  box-sizing: border-box;
   margin: 0 auto;
   font-size: 14px;
   line-height: 1.6;
@@ -359,7 +360,7 @@
     margin: 0 2px;
     padding: 0 5px;
     white-space: nowrap;
-    border: 1px solid #eaeaea;
+    border: 1px solid #dddddd30;
     background-color: var(--md-pre);
     border-radius: 3px
   }
@@ -408,7 +409,7 @@
   code {
     white-space: pre-wrap;
     word-break: break-all;
-    display: block;
+    display: inline-block;
     color: var(--md-code);
   }
 

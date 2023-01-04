@@ -5,7 +5,8 @@ import "flag"
 var Port = "8080"
 var Domain = "localhost"
 var Dev = false
-
+const Cat=".yml"
+const DefaultLang = "en"
 const HtmlGlobPath = "views/**/*.html"
 const StaticPath = "/public"
 const PostsPath = "/posts"
