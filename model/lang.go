@@ -40,3 +40,4 @@ func AutoPosts(r *gin.RouterGroup) {
 	docs := r.Group(config.PostsURL)
 	docs.GET("/*url", func(c *gin.Context) { RenderPost(c) })
 }
+

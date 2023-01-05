@@ -53,12 +53,12 @@ func walkCata(ymlpath string, level int8, catList *[]Cat) *[]Cat {
 func MaselHref(str string) string {
 	str = strings.TrimSuffix(str, "/index.md")
 	str = strings.TrimSuffix(str, ".md")
-	if strings.HasPrefix(str, config.PostsPath+"/zh") {
-		str = strings.Replace(str, "/posts/zh", "/zh/docs", 1)
-	} else if strings.HasPrefix(str, "/posts/en") {
-		str = strings.Replace(str, "/posts/en", "/en/docs", 1)
+	if strings.HasPrefix(str, config.PostsPath+ZH.Url) {
+		str = strings.Replace(str, config.PostsPath+ZH.Url, ZH.Url+config.PostsURL, 1)
+	} else if strings.HasPrefix(str, config.PostsPath+EN.Url) {
+		str = strings.Replace(str, config.PostsPath+EN.Url, EN.Url+config.PostsURL, 1)
 	} else {
-		str = strings.Replace(str, "/posts/ru", "/ru/docs", 1)
+		str = strings.Replace(str, config.PostsPath+RU.Url, RU.Url+config.PostsURL, 1)
 	}
 	return str
 }
