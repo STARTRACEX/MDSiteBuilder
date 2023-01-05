@@ -1,18 +1,16 @@
 ---
 author: "[STARTRACEX](https://github.com/STARTRACEX/MDSiteBuilder)"
 date: 2022-11-01
-update: 2023-01-04
+update: 2023-01-05
 summary: A simple site builder
 ---
 # MDSiteBuilder
-
-[STARTRACEX](https://github.com/STARTRACEX/MDSiteBuilder)
 
 ## Getting Started
 
 This is a part of [STARTRACEX.GITHUB.IO](https://startracex.github.io/)
 
-[LIBRARY](https://github.com/STARTRACEX/MDStaticSiteBuilder)
+[LIBRARY](https://github.com/STARTRACEX/MDSiteBuilder)
 
 ### URL as Path
 
@@ -37,7 +35,7 @@ Start the service by running the executable
 
 Set the port number and domain name by carrying the following flags
 
-```terminal
+```shell
 -p <port number>
 -d <domain name>
 -dev <Set gin mode to debug>

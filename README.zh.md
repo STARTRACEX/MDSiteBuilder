@@ -1,7 +1,7 @@
 ---
 author: "[STARTRACEX](https://github.com/STARTRACEX/MDSiteBuilder)"
 date: 2022-11-01
-update: 2023-01-04
+update: 2023-01-05
 summary: A simple site builder
 ---
 # MDSiteBuilder
@@ -10,7 +10,7 @@ summary: A simple site builder
 
 这是[STARTRACEX.GITHUB.IO](https://startracex.github.io/)的一部分
 
-[库](https://github.com/STARTRACEX/MDStaticSiteBuilder)
+[库](https://github.com/STARTRACEX/MDSiteBuilder)
 
 ### URL作为路径
 
@@ -36,7 +36,7 @@ yaml解析以下内容:"author,summary,date,update,title"(字符串类型),"auth
 通过运行可执行文件启动服务
 通过携带以下标志设置端口号和域名
 
-```terminal
+```shell
 -p <端口号>
 -d <域名>
 -dev <设置gin模式为调试>

@@ -1,5 +1,5 @@
 ---
-title: Types
+title: Type
 date: 2023-01-04
 update: 2023-01-04
 ---
@@ -19,7 +19,7 @@ type Cata struct {
 }
 ```
 
-`Cat`和`Cata`是用于渲染目录的结构体,二者具有相同含义
+`Cat`and`Cat`are structures used to render directories, and they have the same meaning
 
 ## Post
 
@@ -35,7 +35,7 @@ type Post struct {
 }
 ```
 
-`Post`是用于渲染文章的结构体,部分内容来自`Meta`
+`Post`is a structure used to render articles. Some of the content comes from `Meta`
 
 ## Meta
 
@@ -50,4 +50,4 @@ type Meta struct {
 }
 ```
 
-`Meta`是文档的元数据
+`Meta`is the metadata of the document

@@ -1,7 +1,7 @@
 ---
 author: "[STARTRACEX](https://github.com/STARTRACEX/MDSiteBuilder)"
 date: 2022-11-01
-update: 2023-01-04
+update: 2023-01-05
 summary: A simple site builder
 ---
 # MDSiteBuilder
@@ -12,7 +12,7 @@ summary: A simple site builder
 
 Это часть [STARTRACEX.GITHUB.IO](https://startracex.github.io/)
 
-[библиотека](https://github.com/STARTRACEX/MDStaticSiteBuilder)
+[библиотека](https://github.com/STARTRACEX/MDSiteBuilder)
 
 ### URL как путь
 
@@ -39,7 +39,7 @@ Yaml анализирует следующее содержание: "author, su
 
 "Terminal"
 
-```terminal
+```shell
 -p <номер порта>
 -d <доменное имя>
 -dev <Настройка режима GIN для отладки> 
