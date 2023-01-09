@@ -45,8 +45,8 @@ main\main.exe -p 8080 -d localhost -dev
 ```
 
 Access these pages after running
-[Home] (http: localhost: 8080/)
-[Documentation] (http: localhost: 8080/docs/)
+[Home](http: localhost: 8080/)
+[Documentation](http: localhost: 8080/docs/)
 Change the language to add '/zh' or '/ru' or '/en' at the beginning of the path (default)
 
 Basic styles and scripts are ready in the folder
